@@ -16,7 +16,7 @@ namespace HairSalon
     public void Test_Empty_DBIsEmpty()
     {
       //Arrange//Act
-      int result = Cuisine.GetAll().Count;
+      int result = Stylist.GetAll().Count;
       //Assert
       Assert.Equal(0, result);
     }
@@ -28,3 +28,4 @@ namespace HairSalon
     }
   }
 }
+

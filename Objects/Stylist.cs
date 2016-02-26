@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace HairSalon
@@ -28,7 +29,50 @@ namespace HairSalon
         return (nameEquals && idEquals);
       }
     }
+    public string GetName()
+    {
+      return _name;
+    }
+    public void SetName(string name)
+    {
+      _name = name;
+    }
+    public string GetId()
+    {
+      return _name;
+    }
+    public void SetId(int id)
+    {
+      _id = id;
+    }
+    public static List<Stylist> GetAll()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
 
+      List<Stylist> myListStylist = new List<Stylist>{};
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM stylists;", conn);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        Stylist newStylist = new Stylist(name, id);
+        myListStylist.Add(newStylist);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+      return myListStylist;
+    }
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
