@@ -12,6 +12,7 @@ namespace HairSalon
       Get["/"] = _ => {
         return View["index.cshtml"];
       };
+      //Stylist Views
       Get["/Stylist"] = _ => {
         return View["stylist.cshtml",Stylist.GetAll()];
       };
@@ -22,10 +23,18 @@ namespace HairSalon
       };
       Get["/Stylist/{id}"]  = parameters => {
         Stylist newStylist = Stylist.Find(parameters.id);
-        //List<Client> clientList = Client.FindByStylistId(newStylist.GetId());
+        List<Client> returnList = new List<Client>();
+        List<Client> clientList = Client.GetAll();
+        foreach(Client client in clientList)
+        {
+          if(client.GetStylistId()==newStylist.GetId())
+          {
+            returnList.Add(client);
+          }
+        }
         Dictionary<string,object> myDictionary = new Dictionary<string,object>{};
         myDictionary.Add("stylist",newStylist);
-        //myDictionary.Add("clients",clientList);
+        myDictionary.Add("clients",returnList);
         return View["StylistView.cshtml",myDictionary];
       };
       Post["/Stylist/Update/{id}"]  = parameters => {
@@ -44,6 +53,42 @@ namespace HairSalon
       Get["/Stylist/Delete"] = _ => {
         Stylist.DeleteAll();
         return View["stylist.cshtml",  "delete"];
+      };
+      //Client Views
+      Get["/Client"] = _ => {
+        return View["client.cshtml", Client.GetAll()];
+      };
+      Post["/Client"] =_=> {
+        DateTime newDateTime = Convert.ToDateTime((string)Request.Form["date"]);
+        Client newClient = new Client(Request.Form["name"], newDateTime, Request.Form["phone"], Request.Form["email"], Request.Form["stylist"]);
+        newClient.Save();
+        return View["client.cshtml",Client.GetAll()];
+      };
+      Get["/Client/{id}"]  = parameters => {
+        List<Stylist> cuisineList = Stylist.GetAll();
+        Client newClient = Client.Find(parameters.id);
+        Dictionary<string,object> myDictionary = new Dictionary<string,object>{};
+        myDictionary.Add("stylist",cuisineList);
+        myDictionary.Add("client",newClient);
+        return View["clientView.cshtml",myDictionary];
+      };
+      Post["/Client/Update/{id}"]  = parameters => {
+        Client newClient = Client.Find(parameters.id);
+        DateTime newDateTime = Convert.ToDateTime((string) Request.Form["date"]);
+        newClient.Update(Request.Form["name"], newDateTime, Request.Form["phone"], Request.Form["email"], Request.Form["stylist"]);
+        return View["client.cshtml",Client.GetAll()];
+      };
+      Get["/Client/Delete/{id}"]  = parameters => {
+        Client newClient = Client.Find(parameters.id);
+        newClient.Delete();
+        return View["client.cshtml",Client.GetAll()];
+      };
+      Get["/Client/Create"] = _ => {
+        return View["clientCreate.cshtml", Stylist.GetAll()];
+      };
+      Get["/Client/Delete"] = _ => {
+        Client.DeleteAll();
+        return View["client.cshtml",  "delete"];
       };
     }
   }
