@@ -34,7 +34,11 @@ namespace HairSalon
         Client newClient = (Client) otherClient;
         bool nameEquals = this.GetName() == newClient.GetName();
         bool idEquals = this.GetId() == newClient.GetId();
-        return (nameEquals && idEquals);
+        bool stylistIdEquals = this.GetStylistId() == newClient.GetStylistId();
+        bool phoneEquals = this.GetPhone() == newClient.GetPhone();
+        bool emailEquals = this.GetEmail() == newClient.GetEmail();
+        bool dateEquals = this.GetDateTime() == newClient.GetDateTime();
+        return (nameEquals && idEquals && stylistIdEquals && phoneEquals && emailEquals && dateEquals);
       }
     }
     public string GetName()
@@ -100,7 +104,7 @@ namespace HairSalon
 
       SqlParameter appointmentParameter = new SqlParameter();
       appointmentParameter.ParameterName = "@ClientDate";
-      appointmentParameter.Value = this.GetDateTime()();
+      appointmentParameter.Value = this.GetDateTime();
       cmd.Parameters.Add(appointmentParameter);
 
       SqlParameter phoneParameter = new SqlParameter();
@@ -148,7 +152,11 @@ namespace HairSalon
       {
         int id = rdr.GetInt32(0);
         string name = rdr.GetString(1);
-        Client newClient = new Client(name, id);
+        DateTime dateTime = rdr.GetDateTime(2);
+        string phone = rdr.GetString(3);
+        string email = rdr.GetString(4);
+        int stylistId = rdr.GetInt32(5);
+        Client newClient = new Client(name, dateTime, phone, email, stylistId, id);
         myListClient.Add(newClient);
       }
       if (rdr != null)
@@ -176,13 +184,21 @@ namespace HairSalon
 
       int foundClientId = 0;
       string foundClientName = null;
+      DateTime foundDateTime = new DateTime(2016,1,1);
+      string foundClientPhone = null;
+      string foundClientEmail = null;
+      int foundClientSytlistId = 0;
 
       while(rdr.Read())
       {
         foundClientId = rdr.GetInt32(0);
         foundClientName = rdr.GetString(1);
+        foundDateTime = rdr.GetDateTime(2);
+        foundClientPhone = rdr.GetString(3);
+        foundClientEmail = rdr.GetString(4);
+        foundClientSytlistId = rdr.GetInt32(5);
       }
-      Client foundClient = new Client(foundClientName, foundClientId);
+      Client foundClient = new Client(foundClientName, foundDateTime, foundClientPhone, foundClientEmail, foundClientSytlistId, foundClientId);
 
       if (rdr != null)
       {
