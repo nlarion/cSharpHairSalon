@@ -99,7 +99,6 @@ namespace HairSalon
       testStylist.Update("Mark");
       //Assert
       Assert.Equal("Mark", testStylist.GetName());
-
     }
 
     [Fact]

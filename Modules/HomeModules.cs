@@ -11,6 +11,9 @@ namespace HairSalon
     {
       Get["/"] = _ => {
         return View["index.cshtml"];
+      };      
+      Get["/Stylist"] = _ => {
+        return View["stylist.cshtml",Stylist.GetAll()];
       };
     }
   }
