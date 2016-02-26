@@ -14,7 +14,7 @@ This project was developed during a "Code Review" session at Epicodus, which is 
 
 ## Setup/Installation Requirements
 - Clone this repository.
-- Use the .sql in the root directory to make the databases. Or follow these commands in SQLCMD/SQL Server:
+- Use the .sql in the root directory to make the databases. Or follow these commands in SQLCMD/SQL Server to create hair_salon and hair_salon_test:
   * CREATE DATABASE hair_salon;
   - GO
   - CREATE TABLE stylists (id INT IDENTITY(1,1), name VARCHAR(255));
