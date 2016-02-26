@@ -194,20 +194,40 @@ namespace HairSalon
       }
       return foundClient;
     }
-    public void Update(string newName)
+    public void Update(string newName, DateTime newAppointment, string newPhone, string newEmail, int newStylistId)
     {
       SqlConnection conn = DB.Connection();
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("UPDATE clients SET name = @ClientName OUTPUT INSERTED.name WHERE id = @ClientId;", conn);
-      SqlParameter stylistNameParameter = new SqlParameter();
-      stylistNameParameter.ParameterName = "@ClientName";
-      stylistNameParameter.Value = newName;
-      cmd.Parameters.Add(stylistNameParameter);
+      SqlCommand cmd = new SqlCommand("UPDATE clients SET name = @ClientName, appointment = @ClientDate, phone = @ClientPhone, email = @ClientEmail, stylistId = @ClientStylistId OUTPUT INSERTED.name, INSERTED.appointment, INSERTED.phone, INSERTED.email, INSERTED.stylistId WHERE id = @Id;", conn);
+      SqlParameter ClientNameParameter = new SqlParameter();
+      ClientNameParameter.ParameterName = "@ClientName";
+      ClientNameParameter.Value = newName;
+      cmd.Parameters.Add(ClientNameParameter);
+
+      SqlParameter ClientDateParameter = new SqlParameter();
+      ClientDateParameter.ParameterName = "@ClientDate";
+      ClientDateParameter.Value = newAppointment;
+      cmd.Parameters.Add(ClientDateParameter);
+
+      SqlParameter clientPhoneParameter = new SqlParameter();
+      clientPhoneParameter.ParameterName = "@ClientPhone";
+      clientPhoneParameter.Value = newPhone;
+      cmd.Parameters.Add(clientPhoneParameter);
+
+      SqlParameter clientEmailParameter = new SqlParameter();
+      clientEmailParameter.ParameterName = "@ClientEmail";
+      clientEmailParameter.Value = newEmail;
+      cmd.Parameters.Add(clientEmailParameter);
+
+      SqlParameter clientStylistIdParameter = new SqlParameter();
+      clientStylistIdParameter.ParameterName = "@ClientStylistId";
+      clientStylistIdParameter.Value = newStylistId;
+      cmd.Parameters.Add(clientStylistIdParameter);
 
       SqlParameter stylistIdParameter = new SqlParameter();
-      stylistIdParameter.ParameterName = "@ClientId";
+      stylistIdParameter.ParameterName = "@Id";
       stylistIdParameter.Value = this.GetId();
       cmd.Parameters.Add(stylistIdParameter);
       rdr = cmd.ExecuteReader();
@@ -215,6 +235,10 @@ namespace HairSalon
       while(rdr.Read())
       {
         this._name = rdr.GetString(0);
+        this._dateTime = rdr.GetDateTime(1);
+        this._phone = rdr.GetString(2);
+        this._email = rdr.GetString(3);
+        this._stylistId = rdr.GetInt32(4);
       }
 
       if (rdr != null)
