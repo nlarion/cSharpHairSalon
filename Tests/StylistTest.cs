@@ -52,22 +52,28 @@ namespace HairSalon
     public void Test_GetAll_GetAllStylistsInDatabase()
     {
       //Arrange
-
+      Stylist testStylist1 = new Stylist("Johnny");
+      testStylist1.Save();
+      Stylist testStylist2 = new Stylist("Matty");
+      testStylist2.Save();
       //Act
-
+      List<Stylist> result = Stylist.GetAll();
+      List<Stylist> testList = new List<Stylist>{testStylist1,testStylist2};
       //Assert
-      
+      Assert.Equal(testList, result);
     }
 
     [Fact]
     public void Test_DeleteAll_DeleteAllStylistsInDatabase()
     {
       //Arrange
-
+      Stylist testStylist = new Stylist("Johnny");
+      testStylist.Save();
       //Act
-
+      Stylist.DeleteAll();
+      int result = Stylist.GetAll().Count;
       //Assert
-      
+      Assert.Equal(0, result);
     }
 
     [Fact]
@@ -76,10 +82,8 @@ namespace HairSalon
       //Arrange
       Stylist testStylist = new Stylist("Johnny");
       testStylist.Save();
-
       //Act
       Stylist foundStylist = Stylist.Find(testStylist.GetId());
-
       //Assert
       Assert.Equal(testStylist, foundStylist);
     }
@@ -91,10 +95,8 @@ namespace HairSalon
       string name = "Johnny";
       Stylist testStylist = new Stylist(name);
       testStylist.Save();
-
       //Act
       testStylist.Update("Mark");
-
       //Assert
       Assert.Equal("Mark", testStylist.GetName());
 
@@ -104,11 +106,15 @@ namespace HairSalon
     public void Test_Delete_DeleteSingleStylistsInDatabase()
     {
       //Arrange
-
+      Stylist testStylist1 = new Stylist("Johnny");
+      testStylist1.Save();
+      Stylist testStylist2 = new Stylist("Matty");
+      testStylist2.Save();
       //Act
-
+      testStylist1.Delete();
+      int result = Stylist.GetAll().Count;
       //Assert
-      
+      Assert.Equal(1, result);
     }
 
     public void Dispose()

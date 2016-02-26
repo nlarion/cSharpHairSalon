@@ -37,9 +37,9 @@ namespace HairSalon
     {
       _name = name;
     }
-    public string GetId()
+    public int GetId()
     {
-      return _name;
+      return _id;
     }
     public void SetId(int id)
     {
@@ -139,7 +139,7 @@ namespace HairSalon
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("UPDATE stylist SET name = @StylistName OUTPUT INSERTED.name WHERE id = @StylistId;", conn);
+      SqlCommand cmd = new SqlCommand("UPDATE stylists SET name = @StylistName OUTPUT INSERTED.name WHERE id = @StylistId;", conn);
       SqlParameter stylistNameParameter = new SqlParameter();
       stylistNameParameter.ParameterName = "@StylistName";
       stylistNameParameter.Value = newName;
@@ -166,6 +166,18 @@ namespace HairSalon
         conn.Close();
       }
 
+    }
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM stylists where id = @Id;", conn);
+
+      SqlParameter stylistIdParameter = new SqlParameter();
+      stylistIdParameter.ParameterName = "@Id";
+      stylistIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(stylistIdParameter);
+      cmd.ExecuteNonQuery();
     }
     public static void DeleteAll()
     {
