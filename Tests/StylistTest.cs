@@ -64,6 +64,24 @@ namespace HairSalon
     }
 
     [Fact]
+    public void Test_GetClients_RetrievesAllClientsOfStylist()
+    {
+      //Arrange
+      Stylist testStylist1 = new Stylist("Johnny",1);
+      testStylist1.Save();
+      Client testClient1 = new Client("Johnny", new DateTime(1984, 9, 3),"555-555-5555","john@johnny.com",testStylist1.GetId());
+      testClient1.Save();
+      Client testClient2 = new Client("Scotty", new DateTime(1984, 9, 3),"555-555-5555","scotty@scotty.com",testStylist1.GetId());
+      testClient2.Save();
+
+      //Act
+      List<Client> testClientList = new List<Client> {testClient1, testClient2};
+      List<Client> resultClientList = testStylist1.GetClients();
+      //Assert
+      Assert.Equal(testClientList, resultClientList);
+    }
+
+    [Fact]
     public void Test_DeleteAll_DeleteAllStylistsInDatabase()
     {
       //Arrange
@@ -119,7 +137,7 @@ namespace HairSalon
     public void Dispose()
     {
       Stylist.DeleteAll();
-      //Client.DeleteAll();
+      Client.DeleteAll();
     }
   }
 }

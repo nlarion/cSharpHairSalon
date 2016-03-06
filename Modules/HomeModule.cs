@@ -65,10 +65,10 @@ namespace HairSalon
         return View["client.cshtml",Client.GetAll()];
       };
       Get["/Client/{id}"]  = parameters => {
-        List<Stylist> cuisineList = Stylist.GetAll();
+        List<Stylist> stylistList = Stylist.GetAll();
         Client newClient = Client.Find(parameters.id);
         Dictionary<string,object> myDictionary = new Dictionary<string,object>{};
-        myDictionary.Add("stylist",cuisineList);
+        myDictionary.Add("stylist",stylistList);
         myDictionary.Add("client",newClient);
         return View["clientView.cshtml",myDictionary];
       };
