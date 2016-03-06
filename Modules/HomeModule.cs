@@ -23,18 +23,10 @@ namespace HairSalon
       };
       Get["/Stylist/{id}"]  = parameters => {
         Stylist newStylist = Stylist.Find(parameters.id);
-        List<Client> returnList = new List<Client>();
-        List<Client> clientList = Client.GetAll();
-        foreach(Client client in clientList)
-        {
-          if(client.GetStylistId()==newStylist.GetId())
-          {
-            returnList.Add(client);
-          }
-        }
+        List<Client> clientList = newStylist.GetClients();
         Dictionary<string,object> myDictionary = new Dictionary<string,object>{};
         myDictionary.Add("stylist",newStylist);
-        myDictionary.Add("clients",returnList);
+        myDictionary.Add("clients",clientList);
         return View["StylistView.cshtml",myDictionary];
       };
       Post["/Stylist/Update/{id}"]  = parameters => {
