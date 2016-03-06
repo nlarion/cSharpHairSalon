@@ -95,7 +95,7 @@ namespace HairSalon
       SqlDataReader rdr = null;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("Insert INTO clients (name, appointment, phone, email, stylistId) OUTPUT INSERTED.id VALUES (@ClientName, @ClientDate, @ClientPhone, @ClientEmail, @ClientStylistId);", conn);
+      SqlCommand cmd = new SqlCommand("Insert INTO clients (name, appointment, phone, email, stylist_id) OUTPUT INSERTED.id VALUES (@ClientName, @ClientDate, @ClientPhone, @ClientEmail, @ClientStylistId);", conn);
 
       SqlParameter nameParameter = new SqlParameter();
       nameParameter.ParameterName = "@ClientName";
@@ -216,7 +216,7 @@ namespace HairSalon
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("UPDATE clients SET name = @ClientName, appointment = @ClientDate, phone = @ClientPhone, email = @ClientEmail, stylistId = @ClientStylistId OUTPUT INSERTED.name, INSERTED.appointment, INSERTED.phone, INSERTED.email, INSERTED.stylistId WHERE id = @Id;", conn);
+      SqlCommand cmd = new SqlCommand("UPDATE clients SET name = @ClientName, appointment = @ClientDate, phone = @ClientPhone, email = @ClientEmail, stylist_id = @ClientStylistId OUTPUT INSERTED.name, INSERTED.appointment, INSERTED.phone, INSERTED.email, INSERTED.stylist_id WHERE id = @Id;", conn);
       SqlParameter ClientNameParameter = new SqlParameter();
       ClientNameParameter.ParameterName = "@ClientName";
       ClientNameParameter.Value = newName;
@@ -224,7 +224,7 @@ namespace HairSalon
 
       SqlParameter ClientDateParameter = new SqlParameter();
       ClientDateParameter.ParameterName = "@ClientDate";
-      ClientDateParameter.Value = newAppointment;
+      ClientDateParameter.Value = newAppointment.ToString("d");
       cmd.Parameters.Add(ClientDateParameter);
 
       SqlParameter clientPhoneParameter = new SqlParameter();

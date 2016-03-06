@@ -98,6 +98,34 @@ namespace HairSalon
     }
 
     [Fact]
+    public void Test_Update_UpdateClientInDatabaseAndMatchAllAttributes()
+    {
+      //Arrange
+      Client testClient = new Client("Johnny", new DateTime(1984, 9, 3),"555-555-5555","john@johnny.com",1);
+
+      //Act
+      testClient.Update("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1);
+      Client anotherTestClient = new Client("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1);
+      Console.WriteLine(anotherTestClient.GetDateTime());
+      Console.WriteLine(testClient.GetDateTime());
+      //Assert
+      Assert.Equal(testClient, anotherTestClient);
+    }
+
+    [Fact]
+    public void Test_Update_UpdateClientInDatabaseAndMatchAllAttributesWithGettersAndSetters()
+    {
+      //Arrange
+      Client testClient = new Client("Johnny", new DateTime(1984, 9, 3),"555-555-5555","john@johnny.com",1);
+      testClient.Save();
+      //Act
+      testClient.Update("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1);
+
+      //Assert
+      Assert.Equal(true, (testClient.GetName()=="Scotty" && testClient.GetDateTime()==new DateTime(1988, 9, 3) && testClient.GetPhone()=="KLF-555-5555" && testClient.GetEmail()=="scotty@scotty.com"));
+    }
+
+    [Fact]
     public void Test_Delete_DeleteSingleClientsInDatabase()
     {
       //Arrange
