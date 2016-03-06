@@ -18,7 +18,7 @@ This project was developed during a "Code Review" session at Epicodus, which is 
   * CREATE DATABASE hair_salon;
   - GO
   - CREATE TABLE stylists (id INT IDENTITY(1,1), name VARCHAR(255));
-  - CREATE TABLE clients (id INT IDENTITY(1,1), name VARCHAR(255), appointment DATE, phone VARCHAR(255), email VARCHAR(255), stylistId INT);
+  - CREATE TABLE clients (id INT IDENTITY(1,1), name VARCHAR(255), appointment DATE, phone VARCHAR(255), email VARCHAR(255), stylist_id INT);
   - GO
 - Install Nancy the web viewer
 - Build the project using "dnu restore".
