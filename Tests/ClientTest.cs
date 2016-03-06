@@ -102,12 +102,11 @@ namespace HairSalon
     {
       //Arrange
       Client testClient = new Client("Johnny", new DateTime(1984, 9, 3),"555-555-5555","john@johnny.com",1);
+      testClient.Save();
 
       //Act
       testClient.Update("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1);
-      Client anotherTestClient = new Client("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1);
-      Console.WriteLine(anotherTestClient.GetDateTime());
-      Console.WriteLine(testClient.GetDateTime());
+      Client anotherTestClient = new Client("Scotty", new DateTime(1988, 9, 3),"KLF-555-5555","scotty@scotty.com",1,testClient.GetId());
       //Assert
       Assert.Equal(testClient, anotherTestClient);
     }
